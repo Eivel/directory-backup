@@ -2,16 +2,14 @@
 
 set -e
 
-: ${MONGO_HOST:?}
-: ${MONGO_DB:?}
 : ${S3_BUCKET:?}
 : ${AWS_ACCESS_KEY_ID:?}
 : ${AWS_SECRET_ACCESS_KEY:?}
 : ${DATE_FORMAT:?}
 : ${FILE_PREFIX:?}
+: ${BACKUP_SOURCE}
 
 FOLDER=/backup
-DUMP_OUT=dump
 
 FILE_NAME=${FILE_PREFIX}$(date -u +${DATE_FORMAT}).tar.gz
 
@@ -21,11 +19,11 @@ rm -fr ${FOLDER} && mkdir -p ${FOLDER} && cd ${FOLDER}
 
 echo "Starting backup..."
 
-mongodump --host=${MONGO_HOST} --db=${MONGO_DB} --out=${DUMP_OUT}
+cp -rf /data/${BACKUP_SOURCE} ${BACKUP_SOURCE}
 
 echo "Compressing backup..."
 
-tar -zcvf ${FILE_NAME} ${DUMP_OUT} && rm -fr ${DUMP_OUT}
+tar -zcvf ${FILE_NAME} ${BACKUP_SOURCE} && rm -fr ${BACKUP_SOURCE}
 
 echo "Uploading to S3..."
 

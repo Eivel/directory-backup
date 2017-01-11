@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Script that runs a MongoDB backup job periodically according 
+Script that runs a directory backup job periodically according 
 to the interval defined by the INTERVAL_NAME environment variable.
 """
 
@@ -41,7 +41,7 @@ def backup_job():
 
 
 if __name__ == "__main__":
-    print("Starting periodic MongoDB backup at {}".format(datetime.datetime.now().isoformat()))
+    print("Starting periodic directory backup at {}".format(datetime.datetime.now().isoformat()))
 
     try:
         interval_days = int(os.environ.get(ENV_BACKUP_INTERVAL))
